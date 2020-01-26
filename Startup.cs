@@ -1,3 +1,5 @@
+using fhirbrowser.data;
+using LinqToDB.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +15,8 @@ namespace fhirbrowser
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            DataConnection.DefaultSettings = new ConnectionSettings();
+            LinqToDB.Common.Configuration.Linq.AllowMultipleQuery = true;
         }
 
         public IConfiguration Configuration { get; }

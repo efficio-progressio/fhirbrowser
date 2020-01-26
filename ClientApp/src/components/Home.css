@@ -38,6 +38,10 @@
     color: #808080;
 }
 
+.subcategory a {
+    color: #000000;
+}
+
 .vertical-text {
     writing-mode: vertical-rl;
     text-orientation: sideways-left;
@@ -50,3 +54,6 @@
     padding: 15px;
 }
 
+.item-count {
+    color: #008800;
+}

@@ -8,5 +8,6 @@ namespace fhirbrowser.json
     public class FhirResource
     {
         public String Name { get; set; }
+        public int Count { get; set; }
     }
 }

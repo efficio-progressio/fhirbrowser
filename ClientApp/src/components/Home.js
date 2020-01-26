@@ -4,296 +4,477 @@ import './Home.css';
 export class Home extends Component {
   static displayName = Home.name;
 
-  render () {
-    return (
-        <div>
+    constructor(props) {
+        super(props);
+        this.state = { resources: [], loading: true };
+    }
+
+    componentDidMount() {
+        this.populateResourceData();
+    }
+
+    renderSubcategory(name, items) {
+        return (
+            <div className="subcategory">
+                <h4>{name}</h4>
+                <ul>
+                    {items.map(item =>
+                        <li>{this.renderResource(item)}</li>)
+                    }
+                </ul>
+            </div>
+        );
+    }
+
+    renderResource(name) {
+        let resource = this.state.resources.find((e) => {
+            return e.name === name;
+        });
+
+        return (resource !== undefined)
+            ? <a href="#">{ name } (
+                <span className="item-count">
+                {
+                    resource.count
+                }</span>)</a>
+            : <span>{ name }</span>;
+    }
+
+    renderConformance() {
+        return this.renderSubcategory(
+            "Conformance",
+            [
+                "CapabilityStatement",
+                "StructureDefinition",
+                "ImplementationGuide",
+                "SearchParameter",
+                "MessageDefinition",
+                "OperationDefinition",
+                "CompartmentDefinition",
+                "StructureMap",
+                "GraphDefinition",
+                "ExampleScenario"
+            ]
+        );
+    }
+
+    renderTerminology() {
+        return this.renderSubcategory(
+            "Terminology",
+            [
+                "CodeSystem",
+                "ValueSet",
+                "ConceptMap",
+                "NamingSystem",
+                "TerminologyCapabilities"
+            ]
+        );
+    }
+
+    renderSecurity() {
+        return this.renderSubcategory(
+            "Security",
+            [
+                "Provenance",
+                "AuditEvent",
+                "Consent"
+            ]
+        );
+    }
+
+    renderDocuments() {
+        return this.renderSubcategory(
+            "Documents",
+            [
+                "Composition",
+                "DocumentManifest",
+                "DocumentReference",
+                "CatalogEntry"
+            ]
+        );
+    }
+
+    renderOther() {
+        return this.renderSubcategory(
+            "Other",
+            [
+                "Basic",
+                "Binary",
+                "Bundle",
+                "Linkage",
+                "MessageHeader",
+                "OperationOutcome",
+                "Parameters",
+                "Subscription"
+            ]
+        );
+    }
+
+    renderFoundation() {
+        return (
             <div className="category">
                 <h3 className="vertical-text">Foundation</h3>
-
-                <div className="subcategory">
-                    <h4>Conformance</h4>
-                    <ul>
-                        <li>CapabilityStatement</li>
-                        <li>StructureDefinition</li>
-                        <li>ImplementationGuide</li>
-                        <li>SearchParameter</li>
-                        <li>MessageDefinition</li>
-                        <li>OperationDefinition</li>
-                        <li>CompartmentDefinition</li>
-                        <li>StructureMap</li>
-                        <li>GraphDefinition</li>
-                        <li>ExampleScenario</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Terminology</h4>
-                    <ul>
-                        <li>CodeSystem</li>
-                        <li>ValueSet</li>
-                        <li>ConceptMap</li>
-                        <li>NamingSystem</li>
-                        <li>TerminologyCapabilities</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Security</h4>
-                    <ul>
-                        <li>Provenance</li>
-                        <li>AuditEvent</li>
-                        <li>Consent</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Documents</h4>
-                    <ul>
-                        <li>Composition</li>
-                        <li>DocumentManifest</li>
-                        <li>DocumentReference</li>
-                        <li>CatalogEntry</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Other</h4>
-                    <ul>
-                        <li>Basic</li>
-                        <li>Binary</li>
-                        <li>Bundle</li>
-                        <li>Linkage</li>
-                        <li>MessageHeader</li>
-                        <li>OperationOutcome</li>
-                        <li>Parameters</li>
-                        <li>Subscription</li>
-                    </ul>
-                </div>
+                {this.renderConformance()}
+                {this.renderTerminology()}
+                {this.renderSecurity()}
+                {this.renderDocuments()}
+                {this.renderOther()}
             </div>
+        );
+    }
+
+    renderIndividuals() {
+        return this.renderSubcategory(
+            "Individuals",
+            [
+                "Patient",
+                "Practitioner",
+                "PractitionerRole",
+                "RelatedPerson",
+                "Person",
+                "Group"
+            ]
+        );
+    }
+
+    renderEntities1() {
+        return this.renderSubcategory(
+            "Entities #1",
+            [
+                "Organization",
+                "OrganizationAffiliation",
+                "HealthcareService",
+                "Endpoint",
+                "Location"
+            ]
+        );
+    }
+
+    renderEntities2() {
+        return this.renderSubcategory(
+            "Entities #2",
+            [
+                "Substances",
+                "BiologicallyDerivedProduct",
+                "Device",
+                "DeviceMetrics"
+            ]
+        );
+    }
+
+    renderWorkflow() {
+        return this.renderSubcategory(
+            "Workflow",
+            [
+                "Task",
+                "Appointment",
+                "AppointmentResponse",
+                "Schedule",
+                "Slot",
+                "VerificationResult"
+            ]
+        );
+    }
+
+    renderManagement() {
+        return this.renderSubcategory(
+            "Management",
+            [
+                "Encounter",
+                "EpisodeOfCare",
+                "Flag",
+                "List",
+                "Library"
+            ]
+        );
+    }
+
+    renderBase() {
+        return (
             <div className="category">
                 <h3 className="vertical-text">Base</h3>
 
-                <div className="subcategory">
-                    <h4>Individuals</h4>
-                    <ul>
-                        <li>Patient</li>
-                        <li>Practitioner</li>
-                        <li>PractitionerRole</li>
-                        <li>RelatedPerson</li>
-                        <li>Person</li>
-                        <li>Group</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Entities #1</h4>
-                    <ul>
-                        <li>Organization</li>
-                        <li>OrganizationAffiliation</li>
-                        <li>HealthcareService</li>
-                        <li>Endpoint</li>
-                        <li>Location</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Entities #2</h4>
-                    <ul>
-                        <li>Substance</li>
-                        <li>BiologicallyDerivedProduct</li>
-                        <li>Device</li>
-                        <li>DeviceMetric</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Workflow</h4>
-                    <ul>
-                        <li>Task</li>
-                        <li>Appointment</li>
-                        <li>AppointmentResponse</li>
-                        <li>Schedule</li>
-                        <li>Slot</li>
-                        <li>VerificationResult</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Management</h4>
-                    <ul>
-                        <li>Encounter</li>
-                        <li>EpisodeOfCare</li>
-                        <li>Flag</li>
-                        <li>List</li>
-                        <li>Library</li>
-                    </ul>
-                </div>
+                {this.renderIndividuals()}
+                {this.renderEntities1()}
+                {this.renderEntities2()}
+                {this.renderWorkflow()}
+                {this.renderManagement()}
             </div>
+        );
+    }
+
+    renderSummary() {
+        return this.renderSubcategory(
+            "Summary",
+            [
+                "AllergyIntolerance",
+                "AdverseEvent",
+                "Condition",
+                "Procedure",
+                "FamilyMemberHistory",
+                "ClinicalImpression",
+                "DetectedIssue"
+            ]
+        );
+    }
+
+    renderDiagnostics() {
+        return this.renderSubcategory(
+            "Diagnostics",
+            [
+                "Observation",
+                "Media",
+                "DiagnosticReport",
+                "Specimen",
+                "BodyStructure",
+                "ImagingStudy",
+                "QuestionnaireResponse",
+                "MolecularSequence"
+            ]
+        );
+    }
+
+    renderMedications() {
+        return this.renderSubcategory(
+            "Medications",
+            [
+                "MedicationRequest",
+                "MedicationAdministration",
+                "MedicationDispense",
+                "MedicationStatement",
+                "Medication",
+                "MedicationKnowledge",
+                "Immunization",
+                "ImmunizationEvaluation",
+                "ImmunizationRecommendation"
+            ]
+        );
+    }
+
+    renderCareProvision() {
+        return this.renderSubcategory(
+            "Care Provision",
+            [
+                "CarePlan",
+                "CareTeam",
+                "Goal",
+                "ServiceRequest",
+                "NutritionOrder",
+                "VisionPrescription",
+                "RiskAssessment",
+                "RequestGroup"
+            ]
+        );
+    }
+
+    renderRequestResponse() {
+        return this.renderSubcategory(
+            "Request & Response",
+            [
+                "Communication",
+                "CommunicationRequest",
+                "DeviceRequest",
+                "DeviceUseStatement",
+                "GuidanceResponse",
+                "SupplyRequest",
+                "SupplyResponse"
+            ]
+        );
+    }
+
+    renderClinical() {
+        return (
             <div className="category">
                 <h3 className="vertical-text">Clinical</h3>
 
-                <div className="subcategory">
-                    <h4>Summary</h4>
-                    <ul>
-                        <li>AllergyIntolerance</li>
-                        <li>AdverseEvent</li>
-                        <li>Condition</li>
-                        <li>Procedure</li>
-                        <li>FamilyMemberHistory</li>
-                        <li>ClinicalImpression</li>
-                        <li>DetectedIssue</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Diagnostics</h4>
-                    <ul>
-                        <li>Observation</li>
-                        <li>Media</li>
-                        <li>DiagnosticReport</li>
-                        <li>Specimen</li>
-                        <li>BodyStructure</li>
-                        <li>ImagingStudy</li>
-                        <li>QuestionnaireResponse</li>
-                        <li>MolecularSequence</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Medications</h4>
-                    <ul>
-                        <li>MedicationRequest</li>
-                        <li>MedicationAdministration</li>
-                        <li>MedicationDispense</li>
-                        <li>MedicationStatement</li>
-                        <li>Medication</li>
-                        <li>MedicationKnowledge</li>
-                        <li>Immunization</li>
-                        <li>ImmunizationEvaluation</li>
-                        <li>ImmunizationRecommendation</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Care Provision</h4>
-                    <ul>
-                        <li>CarePlan</li>
-                        <li>CareTeam</li>
-                        <li>Goal</li>
-                        <li>ServiceRequest</li>
-                        <li>NutritionOrder</li>
-                        <li>VisionPrescription</li>
-                        <li>RiskAssessment</li>
-                        <li>RequestGroup</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Request & Response</h4>
-                    <ul>
-                        <li>Communication</li>
-                        <li>CommunicationRequest</li>
-                        <li>DeviceRequest</li>
-                        <li>DeviceUseStatement</li>
-                        <li>GuidanceResponse</li>
-                        <li>SupplyRequest</li>
-                        <li>SupplyDelivery</li>
-                    </ul>
-                </div>
+                {this.renderSummary()}
+                {this.renderDiagnostics()}
+                {this.renderMedications()}
+                {this.renderCareProvision()}
+                {this.renderRequestResponse()}
             </div>
+        );
+    }
+
+    renderSupport() {
+        return this.renderSubcategory(
+            "Support",
+            [
+                "Coverage",
+                "CoverageEligibilityRequest",
+                "CoverageEligibilityResponse",
+                "EnrollmentRequest",
+                "EnrollmentResponse"
+            ]
+        );
+    }
+
+    renderBilling() {
+        return this.renderSubcategory(
+            "Billing",
+            [
+                "Claim",
+                "ClaimResponse",
+                "Invoice"
+            ]
+        );
+    }
+
+    renderPayment() {
+        return this.renderSubcategory(
+            "Payment",
+            [
+                "PaymentNotice",
+                "PaymentReconciliation"
+            ]
+        );
+    }
+
+    renderGeneral() {
+        return this.renderSubcategory(
+            "General",
+            [
+                "Account",
+                "ChargeItem",
+                "ChargeItemDefinition",
+                "Contract",
+                "ExplanationOfBenefit",
+                "InsurancePlan"
+            ]
+        );
+    }
+
+    renderFinancial() {
+        return (
             <div className="category">
                 <h3 className="vertical-text">Financial</h3>
 
-                <div className="subcategory">
-                    <h4>Support</h4>
-                    <ul>
-                        <li>Coverage</li>
-                        <li>CoverageEligibilityRequest</li>
-                        <li>CoverageEligibilityResponse</li>
-                        <li>EnrollmentRequest</li>
-                        <li>EnrollmentResponse</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Billing</h4>
-                    <ul>
-                        <li>Claim</li>
-                        <li>ClaimResponse</li>
-                        <li>Invoice</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Payment</h4>
-                    <ul>
-                        <li>PaymentNotice</li>
-                        <li>PaymentReconciliation</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>General</h4>
-                    <ul>
-                        <li>Account</li>
-                        <li>ChargeItem</li>
-                        <li>ChargeItemDefinition</li>
-                        <li>Contract</li>
-                        <li>ExplanationOfBenefit</li>
-                        <li>InsurancePlan</li>
-                    </ul>
-                </div>
+                {this.renderSupport()}
+                {this.renderBilling()}
+                {this.renderPayment()}
+                {this.renderGeneral()}
             </div>
+        );
+    }
+
+    renderPublicHealthResearch() {
+        return this.renderSubcategory(
+            "Public Health & Research",
+            [
+                "ResearchStudy",
+                "ResearchSubject"
+            ]
+        );
+    }
+
+    renderDefinitionalArtifacts() {
+        return this.renderSubcategory(
+            "Definitional Artifacts",
+            [
+                "ActivityDefinition",
+                "DeviceDefinition",
+                "EventDefinition",
+                "ObservationDefinition",
+                "PlanDefinition",
+                "Questionnaire",
+                "SpecimenDefinition"
+            ]
+        );
+    }
+
+    renderEvidenceBasedMedicine() {
+        return this.renderSubcategory(
+            "Evidence-Based Medicine",
+            [
+                "ResearchDefinition",
+                "ResearchElementDefinition",
+                "Evidence",
+                "EvidenceVariable",
+                "EffectEvidenceSynthesis",
+                "RiskEvidenceSynthesis"
+            ]
+        );
+    }
+
+    renderQualityReportingTesting() {
+        return this.renderSubcategory(
+            <span>Quality Reporting<br /> & Testing</span>,
+            [
+                "Measure",
+                "MeasureReport",
+                "TestScript",
+                "TestReport"
+            ]
+        );
+    }
+
+    renderMedicationDefinition() {
+        return this.renderSubcategory(
+            "Medication Definition",
+            [
+                "MedicinalProduct",
+                "MedicinalProductAuthorization",
+                "MedicinalProductContraindication",
+                "MedicinalProductIndication",
+                "MedicinalProductIngredient",
+                "MedicinalProductInteraction",
+                "MedicinalProductManufactured",
+                "MedicinalProductPackaged",
+                "MedicinalProductPharmaceutical",
+                "MedicinalProductUndesirableEffect",
+                "SubstanceNucleicAcid",
+                "SubstancePolymer",
+                "SubstanceProtein",
+                "SubstanceReferenceInformation",
+                "SubstanceSpecification",
+                "SubstanceSourceMaterial"
+            ]
+        );
+    }
+
+    renderSpecialized() {
+        return (
             <div className="category">
                 <h3 className="vertical-text">Specialized</h3>
-
-                <div className="subcategory">
-                    <h4>Public Health & Research</h4>
-                    <ul>
-                        <li>ResearchStudy</li>
-                        <li>ResearchSubject</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Definitional Artifacts</h4>
-                    <ul>
-                        <li>ActivityDefinition</li>
-                        <li>DeviceDefinition</li>
-                        <li>EventDefinition</li>
-                        <li>ObservationDefinition</li>
-                        <li>PlanDefinition</li>
-                        <li>Questionnaire</li>
-                        <li>SpecimenDefinition</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Evidence-Based Medicine</h4>
-                    <ul>
-                        <li>ResearchDefinition</li>
-                        <li>ResearchElementDefinition</li>
-                        <li>Evidence</li>
-                        <li>EvidenceVariable</li>
-                        <li>EffectEvidenceSynthesis</li>
-                        <li>RiskEvidenceSynthesis</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Quality Reporting<br /> & Testing</h4>
-                    <ul>
-                        <li>Measure</li>
-                        <li>MeasureReport</li>
-                        <li>TestScript</li>
-                        <li>TestReport</li>
-                    </ul>
-                </div>
-                <div className="subcategory">
-                    <h4>Medication Definition</h4>
-                    <ul>
-                        <li>MedicinalProduct</li>
-                        <li>MedicinalProductAuthorization</li>
-                        <li>MedicinalProductContraindication</li>
-                        <li>MedicinalProductIndication</li>
-                        <li>MedicinalProductIngredient</li>
-                        <li>MedicinalProductInteraction</li>
-                        <li>MedicinalProductManufactured</li>
-                        <li>MedicinalProductPackaged</li>
-                        <li>MedicinalProductPharmaceutical</li>
-                        <li>MedicinalProductUndesirableEffect</li>
-                        <li>SubstanceNucleicAcid</li>
-                        <li>SubstancePolymer</li>
-                        <li>SubstanceProtein</li>
-                        <li>SubstanceReferenceInformation</li>
-                        <li>SubstanceSpecification</li>
-                        <li>SubstanceSourceMaterial</li>
-                    </ul>
-                </div>
+                {this.renderPublicHealthResearch()}
+                {this.renderDefinitionalArtifacts()}
+                {this.renderEvidenceBasedMedicine()}
+                {this.renderQualityReportingTesting()}
+                {this.renderMedicationDefinition()}
             </div>
-        </div>
-    );
-  }
+        );
+    }
+
+    renderResources() {
+        let resources = this.state.resources;
+
+        return (
+            <div>
+                { this.renderFoundation() }
+                { this.renderBase() }
+                { this.renderClinical() }
+                { this.renderFinancial() }
+                { this.renderSpecialized() }
+            </div>
+        );
+    }
+
+    render() {
+        let contents = this.state.loading
+            ? <p><em>Loading...</em></p>
+            : this.renderResources();
+
+        return (
+            <div>
+                {contents}
+            </div>
+        );
+    }
+
+
+    async populateResourceData() {
+        const response = await fetch('api/fhirresources');
+        const data = await response.json();
+        this.setState({ resources: data, loading: false });
+    }
 }
