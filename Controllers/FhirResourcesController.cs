@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DataModels;
+using fhirbrowser.data;
 using fhirbrowser.json;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,13 +15,15 @@ namespace fhirbrowser.Controllers
         [Produces("application/json")]
         public FhirResource[] Get()
         {
-            using var db = new FhirDevelopment01DB();
-            db.Practitioners.Count();
+            using var uow = new UnitOfWork();
 
             return new FhirResource[]
             {
-                new FhirResource {Name = "Patient", Count=db.Patients.Count()},
-                new FhirResource {Name = "Practitioner", Count=db.Practitioners.Count()}
+                new FhirResource {Name = "Patient", Count = uow.Patients.Count},
+                new FhirResource {Name = "Practitioner", Count = uow.Practitioners.Count},
+                new FhirResource {Name = "PractitionerRole", Count = uow.PractitionerRoles.Count},
+                new FhirResource {Name = "RelatedPerson", Count = uow.RelatedPeople.Count},
+                new FhirResource {Name = "Person", Count = uow.People.Count}
             };
         }
     }
