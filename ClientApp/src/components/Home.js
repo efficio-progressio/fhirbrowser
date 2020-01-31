@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Home.css';
 
 export class Home extends Component {
@@ -19,41 +20,48 @@ export class Home extends Component {
                 <h4>{name}</h4>
                 <ul>
                     {items.map(item =>
-                        <li>{this.renderResource(item)}</li>)
+                        <li key={item.name}>{this.renderResource(item)}</li>)
                     }
                 </ul>
             </div>
         );
     }
 
-    renderResource(name) {
+    renderResource(item) {
         let resource = this.state.resources.find((e) => {
-            return e.name === name;
+            return e.name === item.name;
         });
 
         return (resource !== undefined)
-            ? <a href="#">{ name } (
-                <span className="item-count">
-                {
-                    resource.count
-                }</span>)</a>
-            : <span>{ name }</span>;
+            ? (item.link !== undefined)
+                ? <Link to = { item.link } > { item.name } (
+                    <span className="item-count">
+                        {
+                                resource.count
+                    }</span>)
+                   </Link>
+                : <a href="#">{ item.name } (
+                    <span className="item-count">
+                        {
+                            resource.count
+                        }</span>)</a>
+            : <span>{item.name}</span>;
     }
 
     renderConformance() {
         return this.renderSubcategory(
             "Conformance",
             [
-                "CapabilityStatement",
-                "StructureDefinition",
-                "ImplementationGuide",
-                "SearchParameter",
-                "MessageDefinition",
-                "OperationDefinition",
-                "CompartmentDefinition",
-                "StructureMap",
-                "GraphDefinition",
-                "ExampleScenario"
+                { "name": "CapabilityStatement" },
+                { "name": "StructureDefinition" },
+                { "name": "ImplementationGuide" },
+                { "name": "SearchParameter" },
+                { "name": "MessageDefinition" },
+                { "name": "OperationDefinition" },
+                { "name": "CompartmentDefinition" },
+                { "name": "StructureMap" },
+                { "name": "GraphDefinition" },
+                { "name": "ExampleScenario" }
             ]
         );
     }
@@ -62,11 +70,11 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Terminology",
             [
-                "CodeSystem",
-                "ValueSet",
-                "ConceptMap",
-                "NamingSystem",
-                "TerminologyCapabilities"
+                { "name": "CodeSystem" },
+                { "name": "ValueSet" },
+                { "name": "ConceptMap" },
+                { "name": "NamingSystem" },
+                { "name": "TerminologyCapabilities" }
             ]
         );
     }
@@ -75,9 +83,9 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Security",
             [
-                "Provenance",
-                "AuditEvent",
-                "Consent"
+                { "name": "Provenance" },
+                { "name": "AuditEvent" },
+                { "name": "Consent" }
             ]
         );
     }
@@ -86,10 +94,10 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Documents",
             [
-                "Composition",
-                "DocumentManifest",
-                "DocumentReference",
-                "CatalogEntry"
+                { "name": "Composition" },
+                { "name": "DocumentManifest" },
+                { "name": "DocumentReference" },
+                { "name": "CatalogEntry" }
             ]
         );
     }
@@ -98,14 +106,14 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Other",
             [
-                "Basic",
-                "Binary",
-                "Bundle",
-                "Linkage",
-                "MessageHeader",
-                "OperationOutcome",
-                "Parameters",
-                "Subscription"
+                { "name": "Basic" },
+                { "name": "Binary" },
+                { "name": "Bundle" },
+                { "name": "Linkage" },
+                { "name": "MessageHeader" },
+                { "name": "OperationOutcome" },
+                { "name": "Parameters" },
+                { "name": "Subscription" }
             ]
         );
     }
@@ -127,12 +135,12 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Individuals",
             [
-                "Patient",
-                "Practitioner",
-                "PractitionerRole",
-                "RelatedPerson",
-                "Person",
-                "Group"
+                { "name" : "Patient", "link" : "/patients" },
+                { "name": "Practitioner" },
+                { "name": "PractitionerRole" },
+                { "name": "RelatedPerson" },
+                { "name": "Person" },
+                { "name": "Group" }
             ]
         );
     }
@@ -141,11 +149,11 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Entities #1",
             [
-                "Organization",
-                "OrganizationAffiliation",
-                "HealthcareService",
-                "Endpoint",
-                "Location"
+                { "name": "Organization" },
+                { "name": "OrganizationAffiliation" },
+                { "name": "HealthcareService" },
+                { "name": "Endpoint" },
+                { "name": "Location" }
             ]
         );
     }
@@ -154,10 +162,10 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Entities #2",
             [
-                "Substances",
-                "BiologicallyDerivedProduct",
-                "Device",
-                "DeviceMetrics"
+                { "name": "Substances" },
+                { "name": "BiologicallyDerivedProduct" },
+                { "name": "Device" },
+                { "name": "DeviceMetrics" }
             ]
         );
     }
@@ -166,12 +174,12 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Workflow",
             [
-                "Task",
-                "Appointment",
-                "AppointmentResponse",
-                "Schedule",
-                "Slot",
-                "VerificationResult"
+                { "name": "Task" },
+                { "name": "Appointment" },
+                { "name": "AppointmentResponse" },
+                { "name": "Schedule" },
+                { "name": "Slot" },
+                { "name": "VerificationResult" }
             ]
         );
     }
@@ -180,11 +188,11 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Management",
             [
-                "Encounter",
-                "EpisodeOfCare",
-                "Flag",
-                "List",
-                "Library"
+                { "name": "Encounter" },
+                { "name": "EpisodeOfCare" },
+                { "name": "Flag" },
+                { "name": "List" },
+                { "name": "Library" }
             ]
         );
     }
@@ -207,13 +215,13 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Summary",
             [
-                "AllergyIntolerance",
-                "AdverseEvent",
-                "Condition",
-                "Procedure",
-                "FamilyMemberHistory",
-                "ClinicalImpression",
-                "DetectedIssue"
+                { "name": "AllergyIntolerance" },
+                { "name": "AdverseEvent" },
+                { "name": "Condition" },
+                { "name": "Procedure" },
+                { "name": "FamilyMemberHistory" },
+                { "name": "ClinicalImpression" },
+                { "name": "DetectedIssue" }
             ]
         );
     }
@@ -222,14 +230,14 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Diagnostics",
             [
-                "Observation",
-                "Media",
-                "DiagnosticReport",
-                "Specimen",
-                "BodyStructure",
-                "ImagingStudy",
-                "QuestionnaireResponse",
-                "MolecularSequence"
+                { "name": "Observation" },
+                { "name": "Media" },
+                { "name": "DiagnosticReport" },
+                { "name": "Specimen" },
+                { "name": "BodyStructure" },
+                { "name": "ImagingStudy" },
+                { "name": "QuestionnaireResponse" },
+                { "name": "MolecularSequence" }
             ]
         );
     }
@@ -238,15 +246,15 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Medications",
             [
-                "MedicationRequest",
-                "MedicationAdministration",
-                "MedicationDispense",
-                "MedicationStatement",
-                "Medication",
-                "MedicationKnowledge",
-                "Immunization",
-                "ImmunizationEvaluation",
-                "ImmunizationRecommendation"
+                { "name": "MedicationRequest" },
+                { "name": "MedicationAdministration" },
+                { "name": "MedicationDispense" },
+                { "name": "MedicationStatement" },
+                { "name": "Medication" },
+                { "name": "MedicationKnowledge" },
+                { "name": "Immunization" },
+                { "name": "ImmunizationEvaluation" },
+                { "name": "ImmunizationRecommendation" }
             ]
         );
     }
@@ -255,14 +263,14 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Care Provision",
             [
-                "CarePlan",
-                "CareTeam",
-                "Goal",
-                "ServiceRequest",
-                "NutritionOrder",
-                "VisionPrescription",
-                "RiskAssessment",
-                "RequestGroup"
+                { "name": "CarePlan" },
+                { "name": "CareTeam" },
+                { "name": "Goal" },
+                { "name": "ServiceRequest" },
+                { "name": "NutritionOrder" },
+                { "name": "VisionPrescription" },
+                { "name": "RiskAssessment" },
+                { "name": "RequestGroup" }
             ]
         );
     }
@@ -271,13 +279,13 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Request & Response",
             [
-                "Communication",
-                "CommunicationRequest",
-                "DeviceRequest",
-                "DeviceUseStatement",
-                "GuidanceResponse",
-                "SupplyRequest",
-                "SupplyResponse"
+                { "name": "Communication" },
+                { "name": "CommunicationRequest" },
+                { "name": "DeviceRequest" },
+                { "name": "DeviceUseStatement" },
+                { "name": "GuidanceResponse" },
+                { "name": "SupplyRequest" },
+                { "name": "SupplyResponse" }
             ]
         );
     }
@@ -300,11 +308,11 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Support",
             [
-                "Coverage",
-                "CoverageEligibilityRequest",
-                "CoverageEligibilityResponse",
-                "EnrollmentRequest",
-                "EnrollmentResponse"
+                { "name": "Coverage" },
+                { "name": "CoverageEligibilityRequest" },
+                { "name": "CoverageEligibilityResponse" },
+                { "name": "EnrollmentRequest" },
+                { "name": "EnrollmentResponse" }
             ]
         );
     }
@@ -313,9 +321,9 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Billing",
             [
-                "Claim",
-                "ClaimResponse",
-                "Invoice"
+                { "name": "Claim" },
+                { "name": "ClaimResponse" },
+                { "name": "Invoice" }
             ]
         );
     }
@@ -324,8 +332,8 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Payment",
             [
-                "PaymentNotice",
-                "PaymentReconciliation"
+                { "name": "PaymentNotice" },
+                { "name": "PaymentReconciliation" }
             ]
         );
     }
@@ -334,12 +342,12 @@ export class Home extends Component {
         return this.renderSubcategory(
             "General",
             [
-                "Account",
-                "ChargeItem",
-                "ChargeItemDefinition",
-                "Contract",
-                "ExplanationOfBenefit",
-                "InsurancePlan"
+                { "name": "Account" },
+                { "name": "ChargeItem" },
+                { "name": "ChargeItemDefinition" },
+                { "name": "Contract" },
+                { "name": "ExplanationOfBenefit" },
+                { "name": "InsurancePlan" }
             ]
         );
     }
@@ -361,8 +369,8 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Public Health & Research",
             [
-                "ResearchStudy",
-                "ResearchSubject"
+                { "name": "ResearchStudy" },
+                { "name": "ResearchSubject" }
             ]
         );
     }
@@ -371,13 +379,13 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Definitional Artifacts",
             [
-                "ActivityDefinition",
-                "DeviceDefinition",
-                "EventDefinition",
-                "ObservationDefinition",
-                "PlanDefinition",
-                "Questionnaire",
-                "SpecimenDefinition"
+                { "name": "ActivityDefinition" },
+                { "name": "DeviceDefinition" },
+                { "name": "EventDefinition" },
+                { "name": "ObservationDefinition" },
+                { "name": "PlanDefinition" },
+                { "name": "Questionnaire" },
+                { "name": "SpecimenDefinition" }
             ]
         );
     }
@@ -386,12 +394,12 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Evidence-Based Medicine",
             [
-                "ResearchDefinition",
-                "ResearchElementDefinition",
-                "Evidence",
-                "EvidenceVariable",
-                "EffectEvidenceSynthesis",
-                "RiskEvidenceSynthesis"
+                { "name": "ResearchDefinition" },
+                { "name": "ResearchElementDefinition" },
+                { "name": "Evidence" },
+                { "name": "EvidenceVariable" },
+                { "name": "EffectEvidenceSynthesis" },
+                { "name": "RiskEvidenceSynthesis" }
             ]
         );
     }
@@ -400,10 +408,10 @@ export class Home extends Component {
         return this.renderSubcategory(
             <span>Quality Reporting<br /> & Testing</span>,
             [
-                "Measure",
-                "MeasureReport",
-                "TestScript",
-                "TestReport"
+                { "name": "Measure" },
+                { "name": "MeasureReport" },
+                { "name": "TestScript" },
+                { "name": "TestReport" }
             ]
         );
     }
@@ -412,22 +420,22 @@ export class Home extends Component {
         return this.renderSubcategory(
             "Medication Definition",
             [
-                "MedicinalProduct",
-                "MedicinalProductAuthorization",
-                "MedicinalProductContraindication",
-                "MedicinalProductIndication",
-                "MedicinalProductIngredient",
-                "MedicinalProductInteraction",
-                "MedicinalProductManufactured",
-                "MedicinalProductPackaged",
-                "MedicinalProductPharmaceutical",
-                "MedicinalProductUndesirableEffect",
-                "SubstanceNucleicAcid",
-                "SubstancePolymer",
-                "SubstanceProtein",
-                "SubstanceReferenceInformation",
-                "SubstanceSpecification",
-                "SubstanceSourceMaterial"
+                { "name": "MedicinalProduct" },
+                { "name": "MedicinalProductAuthorization" },
+                { "name": "MedicinalProductContraindication" },
+                { "name": "MedicinalProductIndication" },
+                { "name": "MedicinalProductIngredient" },
+                { "name": "MedicinalProductInteraction" },
+                { "name": "MedicinalProductManufactured" },
+                { "name": "MedicinalProductPackaged" },
+                { "name": "MedicinalProductPharmaceutical" },
+                { "name": "MedicinalProductUndesirableEffect" },
+                { "name": "SubstanceNucleicAcid" },
+                { "name": "SubstancePolymer" },
+                { "name": "SubstanceProtein" },
+                { "name": "SubstanceReferenceInformation" },
+                { "name": "SubstanceSpecification" },
+                { "name": "SubstanceSourceMaterial" }
             ]
         );
     }
@@ -446,8 +454,6 @@ export class Home extends Component {
     }
 
     renderResources() {
-        let resources = this.state.resources;
-
         return (
             <div>
                 { this.renderFoundation() }
