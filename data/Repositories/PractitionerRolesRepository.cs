@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace fhirbrowser.data.Repositories
 {
-    public class PractitionerRolesRepository : Repository
+    public class PractitionerRolesRepository : IRepository
     {
         private FhirDevelopment01DB _database;
 
