@@ -1,4 +1,6 @@
+using DataModels;
 using fhirbrowser.data;
+using fhirbrowser.data.Repositories;
 using LinqToDB.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +9,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Linq;
 
 namespace fhirbrowser
 {
@@ -24,7 +28,6 @@ namespace fhirbrowser
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -32,6 +35,25 @@ namespace fhirbrowser
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            registerDatasourceServices(services);
+        }
+
+        private void registerDatasourceServices(IServiceCollection services)
+        {
+            services.AddScoped<UnitOfWork, UnitOfWork>();
+            services.AddScoped<FhirDevelopment01DB, FhirDevelopment01DB>();
+
+            var repositories = AppDomain
+                .CurrentDomain
+                .GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => typeof(IRepository).IsAssignableFrom(type) 
+                    && !type.IsInterface 
+                    && !type.IsAbstract)
+                .ToList();
+
+            repositories.ForEach(repository => services.AddScoped(repository, repository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

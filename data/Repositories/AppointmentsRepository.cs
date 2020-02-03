@@ -1,12 +1,9 @@
 ﻿using DataModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace fhirbrowser.data.Repositories
 {
-    public class AppointmentsRepository : Repository
+    public class AppointmentsRepository : IRepository
     {
         private FhirDevelopment01DB _database;
 

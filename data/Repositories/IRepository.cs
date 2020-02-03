@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace fhirbrowser.data.Repositories
 {
-    interface Repository
+    public interface IRepository
     {
         int Count { get; }
     }
