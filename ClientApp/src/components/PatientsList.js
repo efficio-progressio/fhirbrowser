@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { Table, TableBody, TableRow, TableCell, TableContainer, TableHead, makeStyles } from '@material-ui/core';
 
 const classes = makeStyles({
-    Table: {
-        minWidth: 650,
+    table: {
+        minWidth: 1080,
+        width: 2000
     },
 })
 
@@ -13,31 +14,63 @@ export class PatientsList extends Component {
 
     constructor(props) {
         super(props);
+        this.state = { patients: [], loading: true }
     }
 
-    render() {
+    componentDidMount() {
+        this.populatePatientsData();
+    }
+
+    renderPatients() {
         return (
             <TableContainer>
                 <Table className={classes.Table} size="small">
                     <TableHead>
-                        <TableRow><TableCell>Identification</TableCell><TableCell>Name</TableCell><TableCell>Birthdate</TableCell><TableCell>Source</TableCell><TableCell>Active</TableCell></TableRow>
+                        <TableRow>
+                            <TableCell>Identification</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Birthdate</TableCell>
+                            <TableCell>Source</TableCell>
+                            <TableCell>Active</TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell> HSPRO 123456<br />FNR 12345678901</TableCell><TableCell>Bob Saggypants</TableCell><TableCell>2000/01/01</TableCell><TableCell>HsPro</TableCell><TableCell>Yes</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell> HSPRO 234567</TableCell><TableCell>Fiona Mixalot</TableCell><TableCell>2003/03/03</TableCell><TableCell>HsPro</TableCell><TableCell>Yes</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell> HSPRO 345678<br />DNR 32345678901</TableCell><TableCell>Dave Hazelnuts</TableCell><TableCell>1980/06/06</TableCell><TableCell>HsPro</TableCell><TableCell>No</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell> HSPRO 456789</TableCell><TableCell>Pete Parking</TableCell><TableCell>2012/12/12</TableCell><TableCell>HsPro</TableCell><TableCell>Yes</TableCell>
-                        </TableRow>
+                        {this.state.patients.map(patient =>
+                            <TableRow>
+                                <TableCell>
+                                    {
+                                        patient.identification.map(identification =>
+                                        <div>{identification.system} {identification.value}</div>
+                                    )}
+                                </TableCell>
+                                <TableCell>
+                                    {
+                                        patient.name.map(name =>
+                                            <p>{name.familyName}, {name.givenName}</p>
+                                    )}
+                                </TableCell>
+                                <TableCell>{patient.birthDate}</TableCell>
+                                <TableCell>{patient.source}</TableCell>
+                                <TableCell>{patient.active ? 'Yes' : 'No'}</TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
         );
+    }
+
+    render() {
+        let contents = this.state.loading
+            ? <p>Loading...</p>
+            : this.renderPatients();
+
+        return contents;
+    }
+
+    async populatePatientsData() {
+        const response = await fetch('api/patients');
+        const data = await response.json();
+        this.setState({patients: data, loading: false})
     }
 }
