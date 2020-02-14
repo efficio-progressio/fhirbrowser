@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row,Col } from 'reactstrap';
+import { Container } from '@material-ui/core';
 import { NavMenu } from './NavMenu';
 
 export class Layout extends Component {
@@ -9,13 +9,9 @@ export class Layout extends Component {
     return (
       <div>
             <NavMenu />
-            <Container fluid={true}>
-                <Row>
-                    <Col md={{span: 4, offset: 2 }}>
-                        {this.props.children}
-                    </Col>
-                </Row>
-        </Container>
+            <Container>
+                {this.props.children}
+            </Container>
       </div>
     );
   }
