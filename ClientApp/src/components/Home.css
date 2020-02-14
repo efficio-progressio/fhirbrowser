@@ -1,0 +1,56 @@
+﻿html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+@media (min-width: 1680px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.category {
+    display: block;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin: 5px;
+}
+
+.category h3 {
+    font-weight: bold;
+    vertical-align: top;
+    margin-top: 5%;
+    break-after: avoid;
+    display: inline-block;
+}
+
+.subcategory ul {
+    padding-left: 20px;
+}
+
+.subcategory li {
+    color: #808080;
+}
+
+.subcategory a {
+    color: #000000;
+}
+
+.vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: sideways-left;
+}
+
+.subcategory {
+    break-before: avoid;
+    display: inline-block;
+    vertical-align: top;
+    padding: 15px;
+}
+
+.item-count {
+    color: #008800;
+}
