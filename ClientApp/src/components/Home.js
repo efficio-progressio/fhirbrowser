@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Grid, Paper, Typography, Sizing, minWidth } from '@material-ui/core';
 import './Home.css';
 
 export class Home extends Component {
@@ -24,6 +25,23 @@ export class Home extends Component {
                     }
                 </ul>
             </div>
+        );
+    }
+
+    renderSubcategory2(name, items) {
+        return (
+            <Grid item>
+                <Typography variant="h6">
+                    {name}
+                </Typography>
+                <Typography variant="body1">
+                    <ul className="subcategory">
+                        {items.map(item =>
+                            <li key={item.name}>{this.renderResource(item)}</li>)
+                        }
+                    </ul>
+                </Typography>
+            </Grid>
         );
     }
 
@@ -66,8 +84,39 @@ export class Home extends Component {
         );
     }
 
+    renderConformance2() {
+        return this.renderSubcategory2(
+            "Conformance",
+            [
+                { "name": "CapabilityStatement" },
+                { "name": "StructureDefinition" },
+                { "name": "ImplementationGuide" },
+                { "name": "SearchParameter" },
+                { "name": "MessageDefinition" },
+                { "name": "OperationDefinition" },
+                { "name": "CompartmentDefinition" },
+                { "name": "StructureMap" },
+                { "name": "GraphDefinition" },
+                { "name": "ExampleScenario" }
+            ]
+        );
+    }
+
     renderTerminology() {
         return this.renderSubcategory(
+            "Terminology",
+            [
+                { "name": "CodeSystem" },
+                { "name": "ValueSet" },
+                { "name": "ConceptMap" },
+                { "name": "NamingSystem" },
+                { "name": "TerminologyCapabilities" }
+            ]
+        );
+    }
+
+    renderTerminology2() {
+        return this.renderSubcategory2(
             "Terminology",
             [
                 { "name": "CodeSystem" },
@@ -90,8 +139,31 @@ export class Home extends Component {
         );
     }
 
+    renderSecurity2() {
+        return this.renderSubcategory2(
+            "Security",
+            [
+                { "name": "Provenance" },
+                { "name": "AuditEvent" },
+                { "name": "Consent" }
+            ]
+        );
+    }
+
     renderDocuments() {
         return this.renderSubcategory(
+            "Documents",
+            [
+                { "name": "Composition" },
+                { "name": "DocumentManifest" },
+                { "name": "DocumentReference" },
+                { "name": "CatalogEntry" }
+            ]
+        );
+    }
+
+    renderDocuments2() {
+        return this.renderSubcategory2(
             "Documents",
             [
                 { "name": "Composition" },
@@ -118,15 +190,49 @@ export class Home extends Component {
         );
     }
 
+    renderOther2() {
+        return this.renderSubcategory2(
+            "Other",
+            [
+                { "name": "Basic" },
+                { "name": "Binary" },
+                { "name": "Bundle" },
+                { "name": "Linkage" },
+                { "name": "MessageHeader" },
+                { "name": "OperationOutcome" },
+                { "name": "Parameters" },
+                { "name": "Subscription" }
+            ]
+        );
+    }
+
     renderFoundation() {
         return (
-            <div className="category">
-                <h3 className="vertical-text">Foundation</h3>
-                {this.renderConformance()}
-                {this.renderTerminology()}
-                {this.renderSecurity()}
-                {this.renderDocuments()}
-                {this.renderOther()}
+            <div>
+                <Paper style={{ "minWidth": 1000 }}>
+                    <Grid container sm={12}>
+                        <Grid item sm={1}>
+                            <Typography variant="h4" className="vertical-text">
+                                Foundation
+                            </Typography>
+                        </Grid>
+                        <Grid container justify="space-evenly" alignItems="flex-start" sm={11}>
+                            {this.renderConformance2()}
+                            {this.renderTerminology2()}
+                            {this.renderSecurity2()}
+                            {this.renderDocuments2()}
+                            {this.renderOther2()}
+                        </Grid>
+                    </Grid>
+                </Paper>
+                <div className="category">
+                    <h3 className="vertical-text">Foundation</h3>
+                    {this.renderConformance()}
+                    {this.renderTerminology()}
+                    {this.renderSecurity()}
+                    {this.renderDocuments()}
+                    {this.renderOther()}
+                </div>
             </div>
         );
     }

@@ -42,6 +42,7 @@
 .vertical-text {
     writing-mode: vertical-rl;
     text-orientation: sideways-left;
+    padding: 10px;
 }
 
 .subcategory {
