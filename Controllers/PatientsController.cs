@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using fhirbrowser.data;
 using fhirbrowser.json;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace fhirbrowser.Controllers
@@ -22,18 +18,21 @@ namespace fhirbrowser.Controllers
 
         // GET: api/Patients
         [HttpGet]
-        public IEnumerable<PatientListItem> Get()
+        public SearchResult<PatientListItem> Get(int from = 0, int to = 50)
         {
-            var patients = _uow.Patients.GetPatients().Select(patient => new PatientListItem
-            {
-                Source = patient.Source,
-                Active = patient.Active,
-                Identification = patient.Identification,
-                Name = patient.Name,
-                BirthDate = patient.BirthDate
-            }).ToList();
+            var count = _uow.Patients.Count;
 
-            return patients;
+            var patients = _uow.Patients.GetPatients(from, to)
+                .Select(patient => new PatientListItem
+                {
+                    Source = patient.Source,
+                    Active = patient.Active,
+                    Identification = patient.Identification,
+                    Name = patient.Name,
+                    BirthDate = patient.BirthDate
+                }).ToList();
+
+            return new SearchResult<PatientListItem>(patients, count);
         }
     }
 }

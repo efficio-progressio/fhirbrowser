@@ -17,9 +17,12 @@ namespace fhirbrowser.data.Repositories
             _database = database;
         }
 
-        public List<FhirPatient> GetPatients()
+        public List<FhirPatient> GetPatients(int from = 0, int to = int.MaxValue)
         {
-            var patients = _database.Patients.Select(patient => new FhirPatient {
+            var patients = _database.Patients
+                .Skip(from)
+                .Take(to - from)
+                .Select(patient => new FhirPatient {
                 Identification = new List<FhirIdentification>() { new FhirIdentification {
                     System = "PK",
                     Value = patient.Id.ToString()
